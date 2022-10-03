@@ -4,11 +4,11 @@ import doll from "../../assets/img/character.png";
 import facebook from "../../assets/img/fb.svg";
 import google from "../../assets/img/google.svg";
 import React, { useState } from "react";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "../../utils/axios";
 
 export default function Signin() {
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   const [form, setForm] = useState({
     email: "",
     password: "",
@@ -24,10 +24,9 @@ export default function Signin() {
       localStorage.setItem("token", result.data.data.token);
       alert(result.data.msg);
 
-      // navigate("/");
+      navigate("/");
     } catch (error) {
-      console.error(error);
-      //   console.error(error.response);
+      // console.error(error);
     }
   };
   return (
