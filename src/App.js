@@ -1,7 +1,8 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import LandingPage from "./pages/LandingPage";
-import SignIn from "./pages/SignIn";
+import SignIn from "./pages/SignIn/index";
+import SignIn2 from "./pages/SignIn/index2";
 import SignUp from "./pages/SignUp";
 import NotFound from "./pages/NotFound";
 import Footer from "./components/Footer";
@@ -14,6 +15,7 @@ function App() {
         <Route path="/Header" element={<Header />} />
         <Route path="/Footer" element={<Footer />} />
         <Route path="/SignIn" element={<SignIn />} />
+        <Route path="/SignIn2" element={<SignIn2 />} />
         <Route path="/SignUp" element={<SignUp />} />
 
         <Route path="/" element={<LandingPage />} />

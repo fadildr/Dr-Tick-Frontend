@@ -1,14 +1,16 @@
 // GLOBAL CSS
 import "./index.css";
 import Header from "../../components/Header";
-import banner from "../../assets/img/bg-full.jpg";
+import Footer from "../../components/Footer";
+import BgBanner from "../../assets/img/bg-full.jpg";
 import card from "../../assets/img/bg-card1.png";
+import character from "../../assets/img/charevent.svg";
 function LandingPage() {
   return (
     <>
       <Header />
       <section className="banner">
-        <img src={banner} alt="banner" className="w-100" />
+        <img src={BgBanner} alt="banner" className="w-100" />
         <div className="container-banner ">
           <h1>
             Find Event You Love <br />
@@ -55,11 +57,6 @@ function LandingPage() {
       {/* card */}
       <div className="container my-5 d-flex">
         <div className="card border-0">
-          {/* <img
-            src="./assets/img/bg-card2.png"
-            className="card-img h-100 rounded-5"
-            alt="image event"
-          /> */}
           <img
             src={card}
             className="card-img h-100 rounded-5"
@@ -72,11 +69,7 @@ function LandingPage() {
               lead-in to additional content. This content is a little bit
               longer.
             </p>
-            <img
-              src="./assets/img/charevent.svg"
-              alt=""
-              style={{ width: 90 }}
-            />
+            <img src={character} alt="" style={{ width: 90 }} />
           </div>
         </div>
         <div
@@ -95,11 +88,7 @@ function LandingPage() {
               lead-in to additional content. This content is a little bit
               longer.
             </p>
-            <img
-              src="./assets/img/charevent.svg"
-              alt=""
-              style={{ width: 90 }}
-            />
+            <img src={character} alt="" style={{ width: 90 }} />
           </div>
         </div>
         <div
@@ -118,11 +107,7 @@ function LandingPage() {
               lead-in to additional content. This content is a little bit
               longer.
             </p>
-            <img
-              src="./assets/img/charevent.svg"
-              alt=""
-              style={{ width: 90 }}
-            />
+            <img src={character} alt="" style={{ width: 90 }} />
           </div>
         </div>
         <div
@@ -141,11 +126,7 @@ function LandingPage() {
               lead-in to additional content. This content is a little bit
               longer.
             </p>
-            <img
-              src="./assets/img/charevent.svg"
-              alt=""
-              style={{ width: 90 }}
-            />
+            <img src={character} alt="" style={{ width: 90 }} />
           </div>
         </div>
       </div>
@@ -181,6 +162,7 @@ function LandingPage() {
           </svg>
         </button>
       </div>
+      <Footer />
     </>
   );
 }

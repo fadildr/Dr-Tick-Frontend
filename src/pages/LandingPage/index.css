@@ -71,17 +71,15 @@ body {
 }
 .middle {
   border: 1px solid;
-  border-radius: 25px;
+  border-radius: 10px;
   color: #ff8900;
   border-color: #ff8900;
 }
 /* card */
-.container-card {
+/* .container-card {
   display: flex;
   margin-left: 200px;
-  /* overflow-x: scroll;
-  overflow-y: hidden; */
-}
+} */
 
 .card {
   width: 260px;
@@ -90,6 +88,7 @@ body {
 }
 .card-img {
   object-fit: cover;
+  border-radius: 50px;
 }
 
 .card-body {
