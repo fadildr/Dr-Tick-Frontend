@@ -3,14 +3,18 @@ import "./index.css";
 import logo from "../../assets/img/icon.png";
 import avatar from "../../assets/img/google.svg";
 // import avatar from "../../assets/img/john.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 // useNavigate
 export default function Header() {
-  //   const navigate = useNavigate();
+  // console.log(props);
+  const navigate = useNavigate();
+  const isLogin = localStorage.getItem("token");
+  // const isLogin = false;
+  const name = "";
 
-  //   const handleNavigate = (nav) => {
-  //     navigate(`/${nav}`);
-  //   };
+  const handleNavigate = (nav) => {
+    navigate(`/${nav}`);
+  };
 
   return (
     <nav className="navbar navbar-expand-lg fixed-top ">
@@ -58,23 +62,30 @@ export default function Header() {
           </ul>
           <div className="d-flex gap-3">
             {/* TAMPILAN JIKA LOGIN */}
-            <div style={{ cursor: "pointer" }}>
-              <img src={avatar} alt="avatar" />
-            </div>
-            <p className="my-auto">John Tomson</p>
-            {/* TAMPILAN BELUM LOGIN */}
-            {/* <button
-              className="btn btn-outline-primary"
-              onClick={() => handleNavigate("signin")}
-            >
-              Signin
-            </button>
-            <button
-              className="btn btn-primary"
-              onClick={() => handleNavigate("signup")}
-            >
-              Signup
-            </button> */}
+            {isLogin ? (
+              <>
+                <div style={{ cursor: "pointer" }}>
+                  <img src={avatar} alt="avatar" />
+                </div>
+                <p className="my-auto">{name ? name : "Anonymous"}</p>
+                {/* <p className="my-auto">{name || "Anonymous"}</p> */}
+              </>
+            ) : (
+              <>
+                <button
+                  className="btn btn-outline-primary"
+                  onClick={() => handleNavigate("signin")}
+                >
+                  Signin
+                </button>
+                <button
+                  className="btn btn-primary"
+                  onClick={() => handleNavigate("signup")}
+                >
+                  Signup
+                </button>
+              </>
+            )}
           </div>
         </div>
       </div>

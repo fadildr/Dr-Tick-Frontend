@@ -20,7 +20,7 @@ export default function Signin() {
   const handleLogin = async () => {
     try {
       const result = await axios.post("auth/login", form);
-      localStorage.setItem("userId", result.data.data.id);
+      localStorage.setItem("userId", result.data.data.userId);
       localStorage.setItem("token", result.data.data.token);
       alert(result.data.msg);
 

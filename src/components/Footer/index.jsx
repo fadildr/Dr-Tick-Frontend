@@ -14,9 +14,11 @@ export default function Footer() {
     align-items-center
     text-center
    mt-3
+  
+   w-100
   "
       >
-        <div className="container-footer  ">
+        <div className="container-footer w-100 ">
           <div className="row mx-3">
             <div className="col-md-4 pr-md-5">
               <a href="#" className="footer-logo d-block mb-3">

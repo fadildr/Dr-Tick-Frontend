@@ -1,0 +1,61 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.container-order {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 100px;
+}
+.contents {
+  padding-left: 40px;
+}
+/* .card {
+  width: 1126px;
+  display: flex;
+} */
+
+.rotate-seat {
+  transform: rotate(-45deg);
+  width: 100%;
+  height: 100%;
+}
+
+.ticket-scrolling {
+  height: 300px;
+  overflow: auto;
+  /* background-color: brown; */
+}
+
+.ticket-icon {
+  width: 45px;
+}
+.price {
+  margin-left: 200px;
+}
+.btn-order {
+  width: 200px;
+}
+.btn-order:hover {
+  color: #4285f4;
+}
+.btn-clear {
+  background-color: #cc0000;
+  border: none;
+  /* width: 100px; */
+  margin: 0 80px;
+}
+.btn-clear:hover {
+  color: #cc0000;
+  border: 1px solid #cc0000;
+  /* border-color: ; */
+}
+@media (max-width: 767.98px) {
+  .rotate-seat {
+    transform: none;
+  }
+}

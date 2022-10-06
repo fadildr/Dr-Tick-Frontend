@@ -1,0 +1,47 @@
+.container-event {
+  background-color: white;
+  margin-top: 100px !important;
+  border-radius: 15px;
+}
+.img-event {
+  border-radius: 20px;
+}
+/* .add-wishlist {
+  text-align: center;
+} */
+.content {
+  margin: 10px;
+  padding: 20px 30px;
+}
+.content-text {
+  margin-left: 30px;
+}
+.title-detail {
+  font-weight: bold;
+  font-size: 24px;
+}
+.date-location {
+  justify-content: space-between;
+  font-size: 12px;
+  margin-bottom: 12px;
+}
+.attandees p {
+  font-size: 12px;
+  font-weight: 600;
+}
+.event-desc p {
+  font-family: Poppins;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 20px;
+  letter-spacing: 1px;
+  text-align: left;
+}
+.map {
+  padding-left: 2px;
+  padding-right: 180px;
+}
+.btn-buy {
+  width: 100%;
+  border-radius: 20px;
+}

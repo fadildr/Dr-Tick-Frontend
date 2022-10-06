@@ -20,13 +20,13 @@ export default function SignUp() {
   const handleRegister = async () => {
     try {
       const result = await axios.post("auth/register", form);
-      localStorage.setItem("userId", result.data.data.id);
-      localStorage.setItem("token", result.data.data.token);
+      // localStorage.setItem("userId", result.data.data.id);
+      // localStorage.setItem("token", result.data.data.token);
       alert(result.data.msg);
 
-      navigate("/");
+      navigate("/signin");
     } catch (error) {
-      // console.error(error);
+      console.error(error);
     }
   };
   return (
