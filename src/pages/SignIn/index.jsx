@@ -6,9 +6,11 @@ import google from "../../assets/img/google.svg";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "../../utils/axios";
-
+import { useDispatch } from "react-redux";
+import { getDataUser } from "../../stores/actions/user";
 export default function Signin() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [form, setForm] = useState({
     email: "",
     password: "",
@@ -20,12 +22,14 @@ export default function Signin() {
   const handleLogin = async () => {
     try {
       const result = await axios.post("auth/login", form);
-      localStorage.setItem("userId", result.data.data.userId);
+      dispatch(getDataUser(result.data.data.userId));
       localStorage.setItem("token", result.data.data.token);
+      localStorage.setItem("refreshToken", result.data.data.refreshToken);
       alert(result.data.msg);
 
       navigate("/");
     } catch (error) {
+      // alert(result.data.msg);
       // console.error(error);
     }
   };

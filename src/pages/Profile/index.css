@@ -1,0 +1,105 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
+
+* {
+  margin: 0%;
+  padding: 0%;
+  font-family: poppins;
+}
+.container-profile {
+  margin-top: 100px;
+  padding: 30px;
+}
+
+.list-group-item-profile {
+  border: none;
+}
+.list-group-item-profile i {
+  color: grey;
+  margin-right: 20px;
+}
+.title-profile {
+  margin-left: 30px;
+  margin-top: 20px;
+}
+.profile-name {
+  margin-bottom: 0;
+  font-size: 20px;
+  /* background: white; */
+}
+.profile-job {
+  width: 110px;
+  height: 18px;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 18px;
+  letter-spacing: 0.5px;
+  color: rgba(55, 58, 66, 0.75);
+}
+.rounded {
+  border-radius: 25px;
+}
+.label {
+  margin: 10px 0;
+  justify-content: space-between;
+  /* background-color: aqua; */
+  padding: 10px 50px;
+  /* align-items: center; */
+}
+.label p {
+  /* margin-right: 30px; */
+  /* text-align: start; */
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  color: #373a42;
+}
+.edit {
+  display: flex;
+  justify-content: space-around;
+  /* background: red; */
+  width: 200px;
+  margin-right: 100px;
+}
+.name {
+  padding-right: 110px;
+}
+.number {
+  justify-content: space-between;
+  padding: 0 35px;
+  margin-right: 130px;
+}
+.link-edit {
+  cursor: pointer;
+  text-decoration: #3366ff underline;
+  color: #3366ff;
+}
+.radio {
+  margin-right: 140px;
+  width: 150px;
+  justify-content: space-between;
+}
+.radio label {
+  font-size: 12px;
+  margin-left: 5px;
+}
+.dropdown {
+  margin-right: 175px;
+  /* background: red; */
+  height: 25px;
+  font-size: 12px;
+  /* color: gr; */
+  border: none;
+  border-radius: 5px;
+}
+.birthday-date {
+  font-size: 12px;
+  text-align: center;
+  border-radius: 10px;
+  border: none;
+}
+.btn-save {
+  width: 200px;
+  margin-left: 50px;
+}

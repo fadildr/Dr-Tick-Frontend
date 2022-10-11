@@ -5,24 +5,33 @@ import SignIn from "./pages/SignIn/index";
 import Detail from "./pages/Detail";
 import SignUp from "./pages/SignUp";
 import Order from "./pages/Order";
+import Profile from "./pages/Profile";
+import CreateEvent from "./pages/CreateEvent";
 import NotFound from "./pages/NotFound";
-// import Footer from "./components/Footer";
-// import Header from "./components/Header";
-// import Card from "./components/Card";
-// import Detail from "./pages/Detail";
+import PublicRoute from "./utils/routes/PublicRoute";
+import PrivateRoute from "./utils/routes/PrivateRoute";
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* <Route path="/Header" element={<Header />} />
-        <Route path="/Card" element={<Card />} /> */}
-        <Route path="/Detail/:id" element={<Detail />} />
-        {/* <Route path="/Footer" element={<Footer />} /> */}
-        <Route path="/Order/:id" element={<Order />} />
-        <Route path="/SignIn" element={<SignIn />} />
-        <Route path="/SignUp" element={<SignUp />} />
+        {/* AUTH */}
+        <Route element={<PublicRoute />}>
+          <Route path="/SignIn" element={<SignIn />} />
+          <Route path="/SignUp" element={<SignUp />} />
+        </Route>
+        {/* MAIN */}
         <Route path="/" element={<LandingPage />} />
-        {/* page not found */}
+        {/* PRIVATE ROUTE */}
+        <Route element={<PrivateRoute />}>
+          <Route path="Profile" element={<Profile />} />
+          <Route path="/Detail/:id" element={<Detail />} />
+          <Route path="/Order/:id" element={<Order />} />
+          <Route path="/CreateEvent" element={<CreateEvent />} />
+        </Route>
+
+        {/* PRIVATE ADMIN ROUTE */}
+        <Route element={<PrivateRoute isAdmin={true} />}></Route>
+        {/* PAGE NOT FOUND */}
         <Route path="/*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>

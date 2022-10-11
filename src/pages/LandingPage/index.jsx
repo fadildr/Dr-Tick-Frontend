@@ -72,21 +72,8 @@ function LandingPage() {
   // console.log(keyword);
   return (
     <>
-      {data.length > 0 ? (
-        data.map((item) => (
-          <div key={item.userId}>
-            <Header
-              data={item}
-              newData="new data"
-              // handleDetail={handleDetailProduct}
-            />
-          </div>
-        ))
-      ) : (
-        <div className="text-center">
-          <h3>Data Not Found !</h3>
-        </div>
-      )}
+      <Header />
+
       <section className="banner">
         <img src={BgBanner} alt="banner" className="w-100" />
         <div className="container-banner">
@@ -138,7 +125,7 @@ function LandingPage() {
         ))}
       </div>
       {/* card */}
-      <div className="container my-5 d-flex">
+      <div className="container my-5 d-flex justify-content-center">
         {data.length > 0 ? (
           data.map((item) => (
             <div key={item.eventId}>

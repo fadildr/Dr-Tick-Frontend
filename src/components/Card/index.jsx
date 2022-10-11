@@ -24,16 +24,8 @@ export default function Card(props) {
       >
         <h5 className="card-title text-white">
           {props.data.dateTimeShow.split("T")[0]}
-          {/* style={{ fontsize: "10px" }} */}
         </h5>
         <p className="card-text">{props.data.name}</p>
-        {/* <button className="btn btn-primary">Go somewhere 1</button> */}
-        {/* <button
-          className="btn btn-primary"
-          onClick={() => props.handleDetail(props.data.id)}
-        >
-          Go somewhere 2
-        </button> */}
       </div>
     </div>
   );
