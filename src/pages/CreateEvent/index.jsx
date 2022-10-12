@@ -43,6 +43,7 @@ export default function createEvent() {
     });
   };
   const setUpdate = (data) => {
+    console.log(data);
     setIsUpdate(true);
     setEventId(data.id);
     setForm({
@@ -54,6 +55,7 @@ export default function createEvent() {
       price: data.price,
       image: data.image,
     });
+    console.log(data.data);
   };
   const handleUpdate = () => {
     const formData = new FormData();
@@ -70,7 +72,9 @@ export default function createEvent() {
       }, 3000);
     });
   };
+  // const handleDelete = () => {
 
+  // }
   const resetForm = () => {
     setForm({
       name: "",
@@ -94,9 +98,10 @@ export default function createEvent() {
       setForm({ ...form, [name]: value });
     }
 
-    console.log(e.target.files);
+    // console.log(e.target.files);
   };
-  console.log(setUpdate);
+  // console.log(setUpdate);
+  // console.log(setEventId);
   return (
     <>
       <Header />
@@ -274,7 +279,10 @@ export default function createEvent() {
                   {event.data.length > 0 ? (
                     event.data.map((item) => (
                       <div key={item.id}>
-                        <div className="crud-event d-flex">
+                        <div
+                          className="crud-event d-flex"
+                          // setUpdate={setUpdate}
+                        >
                           <p className="dt text-center">
                             <div>{moment(item).format("DD")}</div>
                             <small>{moment(item).format("ddd")}</small>
@@ -290,6 +298,7 @@ export default function createEvent() {
                               <p
                                 data-bs-toggle="modal"
                                 data-bs-target="#exampleModal"
+                                onClick={setUpdate}
                               >
                                 Update
                               </p>

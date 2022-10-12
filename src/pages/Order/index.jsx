@@ -38,42 +38,6 @@ export default function Order() {
     } catch (error) {
       console.error(error);
     }
-    // https://www.notion.so/Modul-Booking-293a2b5a8f2b4d09a8e1f25304592c22
-
-    // const DATADUMMY = {
-    //   status: 200,
-    //   message: "Success Get Data Section By Event Id",
-    //   data: [
-    //     {
-    //       section: "REG1-1",
-    //       booked: 20,
-    //       available: 10,
-    //       statusFull: false,
-    //     },
-    //     {
-    //       section: "REG1-2",
-    //       booked: 15,
-    //       available: 15,
-    //       statusFull: false,
-    //     },
-    //     {
-    //       section: "REG1-3",
-    //       booked: 0,
-    //       available: 30,
-    //       statusFull: false,
-    //     },
-    //     {
-    //       section: "REG1-4",
-    //       booked: 30,
-    //       available: 0,
-    //       statusFull: true,
-    //     },
-    //   ],
-    // };
-    // let dataFullSeat = result.data.filter((item) => item.statusFull);
-    // dataFullSeat = dataFullSeat.map((item) => item.section);
-    // setFullSeat(dataFullSeat);
-    // setListBooking(result.data);
   };
 
   const getDataEvent = async () => {
@@ -86,22 +50,6 @@ export default function Order() {
     } catch (error) {
       console.error(error);
     }
-    // const DATADUMMY = {
-    //   status: 200,
-    //   message: "Success Get Event By Id",
-    //   data: [
-    //     {
-    //       eventId: "e29b8308-d23d-42f0-9071-639403c0c451",
-    //       name: "We The Fest",
-    //       category: "Music",
-    //       location: "Jakarta",
-    //       detail: "Lorem ipsum dolor amet",
-    //       dateTimeShow: "2022-01-01 10:00:00",
-    //       price: 150000,
-    //     },
-    //   ],
-    // };
-    // setDataEvent(result.data);
   };
 
   const handleSelectSeat = (seat) => {
@@ -139,13 +87,42 @@ export default function Order() {
     setActiveSeat([]);
     setDataOrder([]);
   };
+  const increaseOrderSeat = (section) => {
+    const findData = dataOrder.find((item) => item.seat === section.seat);
+    const price = section.seat.includes("VVIP")
+      ? dataEvent[0].price * 3 // HARGA 3 KALI LIPAT UNTUK VVIP
+      : section.seat.includes("VIP")
+      ? dataEvent[0].price * 2 // HARGA 2 KALI LIPAT UNTUK VIP
+      : dataEvent[0].price; // HARGA TIDAK BERUBAH UNTUK REGULAR
+    findData.qty += 1;
+    findData.price = price * findData.qty;
+    setDataOrder([...dataOrder]);
+  };
+  const decreaseOrderSeat = (section) => {
+    const findData = dataOrder.find((item) => item.seat === section.seat);
+    if (findData.qty === 1) {
+      const deleteData = dataOrder.filter((item) => item.seat !== section.seat);
+      const deleteSeat = activeSeat.filter((item) => item !== section.seat);
+      setDataOrder(deleteData);
+      setActiveSeat(deleteSeat);
+    } else {
+      const price = section.seat.includes("VVIP")
+        ? dataEvent[0].price * 3 // HARGA 3 KALI LIPAT UNTUK VVIP
+        : section.seat.includes("VIP")
+        ? dataEvent[0].price * 2 // HARGA 2 KALI LIPAT UNTUK VIP
+        : dataEvent[0].price; // HARGA TIDAK BERUBAH UNTUK REGULAR
+      findData.qty -= 1;
+      findData.price = price * findData.qty;
+      setDataOrder([...dataOrder]);
+    }
+  };
   // console.log(setDataEvent);
   return (
     <>
       <Header />
       {/* Hello world */}
 
-      <div className="container container-order rounded-5 d-flex bg-white">
+      <div className="container container-order rounded-5  bg-white">
         {/* <div className="col-6 content__img">
           <img src={character__img} alt="" className="character__img" />
         </div> */}
@@ -170,33 +147,52 @@ export default function Order() {
                   (itemSeat) => itemSeat.section === item.seat
                 );
                 return (
-                  <div className="my-3 d-flex" key={index}>
-                    <img
-                      src={
-                        data[0].includes("VVIP")
-                          ? ticketVVIP
-                          : data[0].includes("VIP")
-                          ? ticketVIP
-                          : ticketREG
-                      }
-                      className="ticket-icon"
-                      alt="ticket icon"
-                    />
-                    <label className="ms-3 d-flex">
-                      <div>
-                        Section {data[0]}, Row {data[1]}
-                        <br />[
-                        {dataSeat.length > 0
-                          ? dataSeat[0].available
-                          : data[0].includes("VVIP")
-                          ? 10
-                          : data[0].includes("VIP")
-                          ? 20
-                          : 30}{" "}
-                        Seats Available]
-                      </div>
-                    </label>
-                    <label className="price">Rp.{item.price}</label>
+                  <div className="my-3 " key={index}>
+                    <div className="d-flex">
+                      <img
+                        src={
+                          data[0].includes("VVIP")
+                            ? ticketVVIP
+                            : data[0].includes("VIP")
+                            ? ticketVIP
+                            : ticketREG
+                        }
+                        className="ticket-icon"
+                        alt="ticket icon"
+                      />
+                      <label className="ms-3 d-flex">
+                        <div>
+                          Section {data[0]}, Row {data[1]}
+                          <br />[
+                          {dataSeat.length > 0
+                            ? dataSeat[0].available
+                            : data[0].includes("VVIP")
+                            ? 10
+                            : data[0].includes("VIP")
+                            ? 20
+                            : 30}{" "}
+                          Seats Available]
+                        </div>
+                      </label>
+                      <br />
+
+                      <label className="price">Rp.{item.price}</label>
+                    </div>
+                    <div className="text-center mt-2">
+                      <button
+                        className="btn btn-sm btn-primary"
+                        onClick={() => decreaseOrderSeat(item)}
+                      >
+                        -
+                      </button>
+                      <h5 className="d-inline mx-2">{item.qty}</h5>
+                      <button
+                        className="btn btn-sm btn-primary"
+                        onClick={() => increaseOrderSeat(item)}
+                      >
+                        +
+                      </button>
+                    </div>
                   </div>
                 );
               })}

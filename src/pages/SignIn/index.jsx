@@ -15,6 +15,7 @@ export default function Signin() {
     email: "",
     password: "",
   });
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleChangeForm = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -32,6 +33,9 @@ export default function Signin() {
       // alert(result.data.msg);
       // console.error(error);
     }
+  };
+  const handleShowPassword = () => {
+    setShowPassword(!showPassword); // mengeset nilai kebalikan dari boolean
   };
   return (
     <>
@@ -69,11 +73,21 @@ export default function Signin() {
                     <input
                       name="password"
                       // required=""
-                      type="password"
+                      type={showPassword ? "text" : "password"}
                       className="form-control rounded-4 text"
                       placeholder="Password"
                       onChange={handleChangeForm}
                     />
+
+                    <div>
+                      <i onClick={handleShowPassword}>
+                        {showPassword ? (
+                          <i className="fa fa-eye"></i>
+                        ) : (
+                          <i className="fa fa-eye-slash"></i>
+                        )}
+                      </i>
+                    </div>
                   </div>
                   <a href="#" className="forgot-pass caption">
                     Forgot Password?
