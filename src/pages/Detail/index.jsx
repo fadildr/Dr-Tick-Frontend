@@ -2,26 +2,45 @@ import Header from "../../components/Header";
 import Footer from "../../components/Footer";
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 import axios from "../../utils/axios";
 import mapimg from "../../assets/img/map.png";
 import attendees from "../../assets/img/charevent.svg";
-
+import { addWishlist } from "../../stores/actions/wishlist";
 import "./index.css";
 function Detail() {
-  const userId = localStorage.getItem("userId");
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.user);
+
+  const userId = user.data.userId;
   const { id } = useParams();
   const navigate = useNavigate();
   const [detail, setDetail] = useState([]);
-  const [dataWishlist, setDataWishlist] = useState({
-    userId: `${userId}`,
-    eventId: `${id}`,
-  });
-
+  const [wishlist, setWishlist] = useState(false);
+  // const [searchEvent, setSearchEvent] = useState(false)
   useEffect(() => {
     getDetailEvent();
-    addWishlist();
+    getWishlistByUserId();
   }, []);
-
+  console.log(userId);
+  const getWishlistByUserId = async () => {
+    try {
+      const result = await axios.get(`wishlist/?userId=${userId}`);
+      // getWishlistByUserId();
+      console.log(result);
+      const searchEvent = result.data.data.filter(
+        (item) => id === item.eventId
+      );
+      console.log(searchEvent);
+      if (searchEvent.length > 0) {
+        setWishlist(true);
+      } else {
+        setWishlist(false);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const getDetailEvent = async () => {
     try {
       const result = await axios.get(`event/${id}`);
@@ -39,22 +58,33 @@ function Detail() {
   //     console.error(error);
   //   }
   // };
-  const addWishlist = async () => {
+
+  // const addWishlist = async () => {
+  //   try {
+  //     const result = await axios.post(`wishlist/`, dataWishlist);
+  //     setDataWishlist(result.data.data);
+  //     console.log(setDataWishlist);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
+  const dataWishlist = {
+    userId,
+    eventId: id,
+  };
+  const handleAddWishlist = async () => {
     try {
-      const result = await axios.post(`wishlist/`, dataWishlist);
-      setDataWishlist(result.data.data);
-      console.log(result.data.data);
+      dispatch(addWishlist(dataWishlist));
+      getWishlistByUserId();
     } catch (error) {
       console.error(error);
     }
   };
-  const handleAddWishlist = () => {
-    console.log(dataWishlist);
-  };
+
   const handleOrder = () => {
     navigate(`/order/${id}`);
   };
-  // console.log(dataWishlist);
+
   return (
     <>
       <Header />
@@ -71,12 +101,18 @@ function Detail() {
                   style={{ height: 400 }}
                 />
                 <br />
-                <button className="btn" onClick={handleAddWishlist}>
-                  <span
-                    className="lnr lnr-cart "
-                    style={{ fontSize: 15 }}
-                  ></span>
-                </button>
+                {wishlist ? (
+                  <button className="btn" onClick={handleAddWishlist}>
+                    hapus wishlist
+                  </button>
+                ) : (
+                  <button className="btn" onClick={handleAddWishlist}>
+                    <span
+                      className="lnr lnr-cart "
+                      style={{ fontSize: 15 }}
+                    ></span>
+                  </button>
+                )}
               </div>
               <div className="row">
                 <div className="col content-text w-100 position-relative">

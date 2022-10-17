@@ -10,7 +10,7 @@ export const getDataEvent = () => {
 export const createDataEvent = (data) => {
   return {
     type: "CREATE_DATA_EVENT",
-    payload: axios.post("event", data),
+    payload: axios.post("event/", data),
   };
 };
 

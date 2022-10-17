@@ -1,6 +1,7 @@
 import "./styles.css";
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
+// import { useDispatch } from "react-redux";
 import axios from "../../utils/axios";
 import SeatPosition from "../../components/SeatPosition";
 import Header from "../../components/Header";
@@ -8,6 +9,8 @@ import Footer from "../../components/Footer";
 import ticketREG from "../../assets/img/reg.png";
 import ticketVIP from "../../assets/img/vip.png";
 import ticketVVIP from "../../assets/img/vvip.png";
+// import { getBookingByUserId } from "../../stores/actions/booking";
+
 // import character__img from "../../assets/img/grup-ticket.png";
 // LIST SECTION
 // VVIP = VVIP(1...4)-1
@@ -15,12 +18,16 @@ import ticketVVIP from "../../assets/img/vvip.png";
 // REG = REG(1...4)-(1...9)
 
 export default function Order() {
+  const navigate = useNavigate();
+  // const dispatch = useDispatch();
   const [fullSeat, setFullSeat] = useState([]); // DI GUNAKAN UNTUK MENAMPUNG SEAT YANG FULL
   const [activeSeat, setActiveSeat] = useState([]); // DIGUNAKAN UNTUK MENAMPUNG SEAT YANG SEDANG DIPILIH
   const [dataOrder, setDataOrder] = useState([]); // DIGUNAKAN UNTUK MENAMPUNG SEAT YANG SUDAH TERPILIH
   const [listBooking, setListBooking] = useState([]); // DIGUNAKAN UNTUK MENAMPUNG LIST DATA SEAT YANG SUDAH DI BOOKING
   const [dataEvent, setDataEvent] = useState([]); // DIGUNAKAN UNTUK MENAMPUNG DATA EVENT
   const { id } = useParams();
+  const data = dataOrder;
+  console.log(data);
   console.log(id);
   console.log(setFullSeat, setListBooking);
   // console.log(listBooking);
@@ -80,9 +87,14 @@ export default function Order() {
   };
   // console.log(listBooking);
   const handleOrderSeat = () => {
-    console.log(dataOrder);
+    navigate("/payment", {
+      state: {
+        dataOrder,
+        eventId: id,
+      },
+    });
   };
-
+  // console.log(dataOrder);
   const clearOrderSeat = () => {
     setActiveSeat([]);
     setDataOrder([]);

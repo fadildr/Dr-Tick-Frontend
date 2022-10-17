@@ -5,18 +5,39 @@ import logo from "../../assets/img/icon.png";
 import avatar from "../../assets/img/john.svg";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+// import { logout } from "../../stores/actions/auth";
 export default function Header() {
   const navigate = useNavigate();
   const isLogin = localStorage.getItem("token");
+  const MySwal = withReactContent(Swal);
+
   // const isLogin = false;
   const user = useSelector((state) => state.user);
-  const imgUser = `https://res.cloudinary.com/dxbhfz3jn/image/upload/v1663760408${user.data.image}`;
+  // const imgUser = `${user.data.image}`;
   const handleNavigate = (nav) => {
     navigate(`/${nav}`);
   };
   const handleUser = async () => {
     navigate("/profile");
+  };
+  const handleLogout = () => {
+    MySwal.fire({
+      title: "Are you sure want to logout?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Logout",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        localStorage.clear();
+        navigate("/");
+        MySwal.fire({ title: "Succes Logout!", icon: "success" });
+      }
+    });
+    // dispatch(logout(dataLogout));
   };
   return (
     <nav className="navbar navbar-expand-lg fixed-top ">
@@ -67,11 +88,22 @@ export default function Header() {
             {isLogin ? (
               <>
                 <div style={{ cursor: "pointer" }} onClick={handleUser}>
-                  <img src={imgUser ? imgUser : avatar} alt="avatar" />
+                  <img
+                    src={
+                      user.data.image
+                        ? `https://res.cloudinary.com/dxbhfz3jn/image/upload/v1663760408/${user.data.image}`
+                        : avatar
+                    }
+                    className="avatar"
+                    alt="avatar"
+                  />
                 </div>
                 <p className="my-auto">
                   {user.data.username ? user.data.username : "Anonymous"}
                 </p>
+                <button className="btn" onClick={handleLogout}>
+                  logout
+                </button>
                 {/* <p className="my-auto">{name || "Anonymous"}</p> */}
               </>
             ) : (

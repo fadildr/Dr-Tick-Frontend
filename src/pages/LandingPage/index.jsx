@@ -14,7 +14,7 @@ function LandingPage() {
   const [pagination, setPagination] = useState({});
   const [page, setPage] = useState(1);
   const [keyword, setKeyword] = useState("");
-  const [dateShow, setDateShow] = useState(moment().format("YYYY-MM-DD")); // 2022-10-04
+  const [dateShow, setDateShow] = useState(moment().format("YYYY,MM,DD")); // 2022-10-04
   const [listDateShow, setListDateShow] = useState([]);
   const [searchName, setSearchName] = useState("");
 
@@ -116,7 +116,7 @@ function LandingPage() {
             className={index === 2 ? "active" : ""}
             // className="btn-date"
             onClick={() => {
-              selectDate(moment(item).format("YYYY-MM-DD"));
+              selectDate(moment(item).format("YYYY,MM,DD"));
             }}
           >
             <div>{moment(item).format("DD")}</div>

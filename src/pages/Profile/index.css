@@ -12,10 +12,16 @@
 
 .list-group-item-profile {
   border: none;
+  cursor: pointer;
+}
+.list-group-item-profile:hover,
+i :hover {
+  color: #3366ff;
 }
 .list-group-item-profile i {
   color: grey;
   margin-right: 20px;
+  cursor: pointer;
 }
 .title-profile {
   margin-left: 30px;
@@ -62,8 +68,12 @@
   width: 200px;
   margin-right: 100px;
 }
-.name {
-  padding-right: 110px;
+.name input {
+  /* padding-right: 110px; */
+  border-radius: 12px;
+  border: 0.5px solid grey;
+  font-size: 12px;
+  padding-left: 10px;
 }
 .number {
   justify-content: space-between;
@@ -102,4 +112,8 @@
 .btn-save {
   width: 200px;
   margin-left: 50px;
+}
+.img-profile {
+  width: 200px;
+  text-align: center;
 }

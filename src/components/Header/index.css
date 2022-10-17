@@ -30,3 +30,6 @@ body {
   border-color: #0275d8 !important;
   padding-bottom: 5px !important;
 }
+.avatar {
+  width: 30px;
+}

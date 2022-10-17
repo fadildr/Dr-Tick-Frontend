@@ -8,8 +8,11 @@ import { useNavigate } from "react-router-dom";
 import axios from "../../utils/axios";
 import { useDispatch } from "react-redux";
 import { getDataUser } from "../../stores/actions/user";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 export default function Signin() {
   const navigate = useNavigate();
+  const MySwal = withReactContent(Swal);
   const dispatch = useDispatch();
   const [form, setForm] = useState({
     email: "",
@@ -23,10 +26,16 @@ export default function Signin() {
   const handleLogin = async () => {
     try {
       const result = await axios.post("auth/login", form);
-      dispatch(getDataUser(result.data.data.userId));
       localStorage.setItem("token", result.data.data.token);
       localStorage.setItem("refreshToken", result.data.data.refreshToken);
-      alert(result.data.msg);
+      await dispatch(getDataUser(result.data.data.userId));
+      MySwal.fire({
+        position: "top-end",
+        icon: "success",
+        title: result.data.msg,
+        showConfirmButton: false,
+        timer: 1500,
+      });
 
       navigate("/");
     } catch (error) {
@@ -37,6 +46,7 @@ export default function Signin() {
   const handleShowPassword = () => {
     setShowPassword(!showPassword); // mengeset nilai kebalikan dari boolean
   };
+
   return (
     <>
       {/* Hello world */}
@@ -94,6 +104,7 @@ export default function Signin() {
                   </a>
 
                   <button
+                    type="button"
                     className="btn w-100 rounded-4 my-4 mb-2"
                     onClick={handleLogin}
                   >

@@ -3,26 +3,30 @@ import Header from "../../components/Header";
 import Footer from "../../components/Footer";
 import avatar from "../../assets/img/john.svg";
 import moment from "moment";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 // import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import {
   getDataEvent,
   createDataEvent,
   updateDataEvent,
+  deleteDataEvent,
 } from "../../stores/actions/event";
 
 import "./index.css";
 export default function createEvent() {
-  moment().format("YYYY-MM-DD");
+  // moment().format("YYYY-MM-DD");
   const dispatch = useDispatch();
+  const MySwal = withReactContent(Swal);
   const user = useSelector((state) => state.user);
   const event = useSelector((state) => state.event);
 
-  const [form, setForm] = useState({});
+  const [form, setForm] = useState({}); //(moment().format("yyyy-MM-dd"));
   const [image, setImage] = useState("");
   const [eventId, setEventId] = useState("");
   const [isUpdate, setIsUpdate] = useState(false);
-
+  // console.log(setIsUpdate);
   useEffect(() => {
     dispatch(getDataEvent());
   }, []);
@@ -36,45 +40,41 @@ export default function createEvent() {
 
     dispatch(createDataEvent(formData)).then(() => {
       dispatch(getDataEvent());
+      MySwal.fire({ title: <p>{event.message}</p> });
       resetForm();
-      setTimeout(() => {
-        dispatch({ type: "RESET_MESSAGE" });
-      }, 3000);
     });
   };
   const setUpdate = (data) => {
     console.log(data);
     setIsUpdate(true);
-    setEventId(data.id);
+    setEventId(data.eventId);
     setForm({
       name: data.name,
       category: data.category,
       location: data.location,
       detail: data.detail,
-      dateTimeShow: data.dateTimeShow,
+      dateTimeShow: moment(data.dateTimeShow).format("YYYY-MM-DD"), //.moment().format("yyyy-MM-dd"),
       price: data.price,
       image: data.image,
     });
-    console.log(data.data);
   };
+  // console.log(data);
   const handleUpdate = () => {
     const formData = new FormData();
     for (const data in form) {
       formData.append(data, form[data]);
     }
-
     dispatch(updateDataEvent(formData, eventId)).then(() => {
       dispatch(getDataEvent());
       setIsUpdate(false);
+      console.log(event);
+      MySwal.fire({ title: <p>{event.message}</p> });
       resetForm();
-      setTimeout(() => {
-        dispatch({ type: "RESET_MESSAGE" });
-      }, 3000);
     });
   };
   // const handleDelete = () => {
-
   // }
+
   const resetForm = () => {
     setForm({
       name: "",
@@ -100,8 +100,24 @@ export default function createEvent() {
 
     // console.log(e.target.files);
   };
-  // console.log(setUpdate);
-  // console.log(setEventId);
+  const handleDelete = (id) => {
+    console.log(id);
+    MySwal.fire({
+      title: "Are you sure?",
+
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        dispatch(deleteDataEvent(id));
+        dispatch(getDataEvent());
+        Swal.fire("Deleted!", "Event has been deleted.", "success");
+      }
+    });
+  };
   return (
     <>
       <Header />
@@ -162,7 +178,7 @@ export default function createEvent() {
           </div>
           <div className="col-9 rounded">
             <div className="card-profile">
-              <div className="row p-4">
+              <div className="row p-4 bg-white">
                 <div
                   className="modal fade"
                   id="exampleModal"
@@ -179,19 +195,7 @@ export default function createEvent() {
                         >
                           Manage Event
                         </h5>
-                        {event.message && (
-                          <div
-                            className={
-                              "alert alert-dismissible fade show " +
-                              event.isError
-                                ? "alert-danger"
-                                : "alert-primary"
-                            }
-                            role="alert"
-                          >
-                            {event.message}
-                          </div>
-                        )}
+
                         <button
                           type="button"
                           className="btn-close"
@@ -254,12 +258,12 @@ export default function createEvent() {
                         {image && <img src={image} alt="view image" />}
                         <button
                           type="button"
-                          className="btn btn-primary"
+                          className="w-100 my-5 btn btn-primary"
                           onClick={isUpdate ? handleUpdate : handleSubmit}
                         >
                           {event.isLoading ? (
                             <div
-                              className="spinner-border text-white"
+                              className="spinner-border text-primary"
                               role="status"
                             >
                               <span className="sr-only"></span>
@@ -298,11 +302,13 @@ export default function createEvent() {
                               <p
                                 data-bs-toggle="modal"
                                 data-bs-target="#exampleModal"
-                                onClick={setUpdate}
+                                onClick={() => setUpdate(item)}
                               >
                                 Update
                               </p>
-                              <p>Delete</p>
+                              <p onClick={() => handleDelete(item.eventId)}>
+                                Delete
+                              </p>
                             </div>
                           </div>
                         </div>
@@ -326,6 +332,7 @@ export default function createEvent() {
           </div>
         </div>
       </div>
+
       <Footer />
     </>
   );

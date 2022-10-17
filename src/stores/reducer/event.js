@@ -44,7 +44,7 @@ const Event = (state = initialState, action) => {
         ...state,
         isLoading: false,
         isError: false,
-        message: action.payload.data.message,
+        message: action.payload.data.msg,
       };
     }
     case "CREATE_DATA_EVENT_REJECTED": {
@@ -52,7 +52,7 @@ const Event = (state = initialState, action) => {
         ...state,
         isLoading: false,
         isError: true,
-        message: action.payload.data.message,
+        message: action.payload.data.msg,
       };
     }
     case "UPDATE_DATA_EVENT_PENDING": {
@@ -68,7 +68,7 @@ const Event = (state = initialState, action) => {
         ...state,
         isLoading: false,
         isError: false,
-        message: action.payload.data.message,
+        message: action.payload.data.msg,
       };
     }
     case "UPDATE_DATA_EVENT_REJECTED": {
@@ -76,7 +76,7 @@ const Event = (state = initialState, action) => {
         ...state,
         isLoading: false,
         isError: true,
-        message: action.payload.data.message,
+        message: action.payload.data.msg,
       };
     }
     case "DELETE_DATA_EVENT_PENDING": {
@@ -92,7 +92,7 @@ const Event = (state = initialState, action) => {
         ...state,
         isLoading: false,
         isError: false,
-        message: action.payload.data.message,
+        message: action.payload.data.msg,
       };
     }
     case "DELETE_DATA_EVENT_REJECTED": {
@@ -100,7 +100,7 @@ const Event = (state = initialState, action) => {
         ...state,
         isLoading: false,
         isError: true,
-        message: action.payload.data.message,
+        message: action.payload.data.msg,
       };
     }
     default: {
