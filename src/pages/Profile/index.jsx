@@ -53,7 +53,16 @@ export default function Profile() {
           <div className="col-3  ">
             <div className="list-group ">
               <div className="profile-img d-flex mb-4">
-                <img src={avatar} alt="" />
+                <img
+                  src={
+                    user.data.image
+                      ? `https://res.cloudinary.com/dxbhfz3jn/image/upload/v1663760408/${user.data.image}`
+                      : `https://ui-avatars.com/api/?name=${user.data.username}&background=random&size=44`
+                  }
+                  className="avatar rounded-circle "
+                  alt="avatar"
+                  style={{ width: "70px" }}
+                />
                 <div className="title-profile">
                   <p className="profile-name">{user.data.username}</p>
                   <p className="profile-job">{user.data.job}</p>

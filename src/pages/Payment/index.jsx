@@ -7,7 +7,7 @@ import { useLocation } from "react-router-dom";
 import "./index.css";
 export default function Payment() {
   const { state } = useLocation();
-  const data = state.dataOrder[0];
+  const data = state.dataOrder;
 
   return (
     <div>
@@ -20,12 +20,19 @@ export default function Payment() {
             <p>Quantity</p>
             <p>Total Payment</p>
           </div>
-
-          <div className="desc-footer-right">
-            <p>{data.seat}</p>
-            <p>{data.qty}</p>
-            <p>Rp{data.price}</p>
-          </div>
+          {data.length > 0 ? (
+            data.map((item) => (
+              <div key={item.id}>
+                <div className="desc-footer-right">
+                  <p>{item.seat}</p>
+                  <p>{item.qty}</p>
+                  <p>Rp{item.price}</p>
+                </div>
+              </div>
+            ))
+          ) : (
+            <h1>Data Not Found !</h1>
+          )}
         </div>
         <button
           type="button"

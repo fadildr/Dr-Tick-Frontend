@@ -1,5 +1,6 @@
 const initialState = {
   data: [],
+  message: "",
 };
 const wishlist = (state = initialState, action) => {
   switch (action.type) {
@@ -7,6 +8,7 @@ const wishlist = (state = initialState, action) => {
       return {
         ...state,
         data: [],
+        message: "",
       };
     }
 
@@ -14,6 +16,7 @@ const wishlist = (state = initialState, action) => {
       return {
         ...state,
         data: action.payload.data.data,
+        message: action.payload.data.msg,
       };
     }
 
@@ -21,12 +24,14 @@ const wishlist = (state = initialState, action) => {
       return {
         ...state,
         data: [],
+        message: "",
       };
     }
     case "DELETE_WISHLIST_PENDING": {
       return {
         ...state,
         data: [],
+        message: "",
       };
     }
 
@@ -34,6 +39,7 @@ const wishlist = (state = initialState, action) => {
       return {
         ...state,
         data: action.payload.data.data,
+        message: action.payload.data.msg,
       };
     }
 
@@ -41,13 +47,12 @@ const wishlist = (state = initialState, action) => {
       return {
         ...state,
         data: [],
+        message: "",
       };
     }
 
     default: {
-      return {
-        ...state,
-      };
+      return state;
     }
   }
 };

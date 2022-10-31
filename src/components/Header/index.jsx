@@ -2,13 +2,16 @@ import React from "react";
 import "./index.css";
 import logo from "../../assets/img/icon.png";
 // import avatar from "../../assets/img/google.svg";
-import avatar from "../../assets/img/john.svg";
+
 import { Link, useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
-// import { logout } from "../../stores/actions/auth";
+import { logout } from "../../stores/actions/auth";
+// import {getDataUser} from "../../stores/actions/user"
+// import { useEffect } from "react";
 export default function Header() {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const isLogin = localStorage.getItem("token");
   const MySwal = withReactContent(Swal);
@@ -22,6 +25,10 @@ export default function Header() {
   const handleUser = async () => {
     navigate("/profile");
   };
+  const dataLogout = {
+    email: user.data.email,
+    password: user.data.password,
+  };
   const handleLogout = () => {
     MySwal.fire({
       title: "Are you sure want to logout?",
@@ -32,6 +39,7 @@ export default function Header() {
       confirmButtonText: "Logout",
     }).then((result) => {
       if (result.isConfirmed) {
+        dispatch(logout(dataLogout));
         localStorage.clear();
         navigate("/");
         MySwal.fire({ title: "Succes Logout!", icon: "success" });
@@ -39,6 +47,9 @@ export default function Header() {
     });
     // dispatch(logout(dataLogout));
   };
+  // const handleCreateEvent = () => {
+  //   navigate("/CreateEvent");
+  // };
   return (
     <nav className="navbar navbar-expand-lg fixed-top ">
       <div className="container-fluid  ">
@@ -67,7 +78,11 @@ export default function Header() {
                 </a> */}
             </li>
             <li className="nav-item">
-              <Link to="/detail" className="nav-link">
+              <Link
+                to="/detail"
+                className="nav-link"
+                // onClick={navigate("/createevent")}
+              >
                 Create Event
               </Link>
               {/* <a className="nav-link" href="/detail">
@@ -92,10 +107,11 @@ export default function Header() {
                     src={
                       user.data.image
                         ? `https://res.cloudinary.com/dxbhfz3jn/image/upload/v1663760408/${user.data.image}`
-                        : avatar
+                        : `https://ui-avatars.com/api/?name=${user.data.username}&background=random&size=44`
                     }
-                    className="avatar"
+                    className="avatar rounded-circle"
                     alt="avatar"
+                    // style={{ width: "5%" }}
                   />
                 </div>
                 <p className="my-auto">

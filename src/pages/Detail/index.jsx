@@ -50,24 +50,7 @@ function Detail() {
       console.error(error);
     }
   };
-  // const getUserById = async () => {
-  //   try {
-  //     const result = await axios.get(`user/${localStorage.getItem("userId")}`);
-  //     setDataUser(result.data.data[0].userId);
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
 
-  // const addWishlist = async () => {
-  //   try {
-  //     const result = await axios.post(`wishlist/`, dataWishlist);
-  //     setDataWishlist(result.data.data);
-  //     console.log(setDataWishlist);
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
   const dataWishlist = {
     userId,
     eventId: id,

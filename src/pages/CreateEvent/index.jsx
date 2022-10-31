@@ -203,7 +203,7 @@ export default function createEvent() {
                           aria-label="Close"
                         ></button>
                       </div>
-                      <div className="modal-body text-center bg-primary">
+                      <div className="modal-body text-center ">
                         <input
                           type="text"
                           placeholder="Name"

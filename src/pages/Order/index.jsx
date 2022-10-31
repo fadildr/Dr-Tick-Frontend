@@ -26,8 +26,8 @@ export default function Order() {
   const [listBooking, setListBooking] = useState([]); // DIGUNAKAN UNTUK MENAMPUNG LIST DATA SEAT YANG SUDAH DI BOOKING
   const [dataEvent, setDataEvent] = useState([]); // DIGUNAKAN UNTUK MENAMPUNG DATA EVENT
   const { id } = useParams();
-  const data = dataOrder;
-  console.log(data);
+  // const data = { ...dataOrder };
+  // console.log(...dataOrder);
   console.log(id);
   console.log(setFullSeat, setListBooking);
   // console.log(listBooking);
@@ -85,7 +85,6 @@ export default function Order() {
       }
     }
   };
-  // console.log(listBooking);
   const handleOrderSeat = () => {
     navigate("/payment", {
       state: {
