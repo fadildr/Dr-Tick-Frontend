@@ -1,112 +1,93 @@
 import React from "react";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
-import avatar from "../../assets/img/john.svg";
+import Sidebar from "../../components/Sidebar";
+
 import moment from "moment";
-// import axios from "../../utils"
-// import { Link, useNavigate } from "react-router-dom";
-// import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 import { useSelector, useDispatch } from "react-redux";
 import { useState } from "react";
-import { updateDataUser, updateImageUser } from "../../stores/actions/user";
+import {
+  updateDataUser,
+  updateImageUser,
+  getDataUser,
+} from "../../stores/actions/user";
 import "./index.css";
 export default function Profile() {
-  // const navigate = useNavigate();
   const dispatch = useDispatch();
-
+  const MySwal = withReactContent(Swal);
+  // require("dotenv").config();
   const user = useSelector((state) => state.user);
+
   const [form, setForm] = useState(user.data);
   const [formImage, setFormImage] = useState({});
-  // const [image, setImage]= useState()
+  const [image, setImage] = useState("");
+  const [loading, setLoading] = useState(false);
+
   const handleChangeForm = (e) => {
     const { name, value } = e.target;
     setForm({ ...form, [name]: value });
-    // console.log(e.target.value);
   };
   const userId = form.userId;
-  const handleUpdateUser = () => {
-    // console.log(data);
-
-    dispatch(updateDataUser(form, userId));
+  const handleUpdateUser = async () => {
+    setLoading(true);
+    try {
+      await dispatch(updateDataUser(form, userId));
+      await dispatch(getDataUser(userId));
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+    }
   };
-  const handleUpdateImage = () => {
+  const handleUpdateImage = async () => {
     const formData = new FormData();
     for (const data in formImage) {
       formData.append(data, formImage[data]);
     }
-    dispatch(updateImageUser(formData, userId));
-    console.log(userId);
-    console.log(formData);
+    setLoading(true);
+    try {
+      await dispatch(updateImageUser(formData, userId));
+      await dispatch(getDataUser(userId));
+      MySwal.fire({
+        position: "top-end",
+        icon: "success",
+        title: "Success Update Image",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      setImage("");
+      setLoading(false);
+    } catch (error) {
+      MySwal.fire({
+        position: "top-end",
+        icon: "error",
+        title: error.response.data.msg,
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    }
   };
 
-  const handleChangeFormImage = (e) => {
+  const handleChangeImage = (e) => {
     const { name, files } = e.target;
-    setFormImage({ ...formImage, [name]: files[0] });
-    console.log(files);
+
+    if (name === "image") {
+      setFormImage({ ...form, [name]: files[0] });
+      setImage(URL.createObjectURL(files[0]));
+    } else {
+      console.log("object");
+    }
   };
-  const handleLogout = () => {};
   return (
     <>
       <Header />
       <div className="container-fluid container-profile">
         <div className="row">
           <div className="col-3  ">
-            <div className="list-group ">
-              <div className="profile-img d-flex mb-4">
-                <img
-                  src={
-                    user.data.image
-                      ? `https://res.cloudinary.com/dxbhfz3jn/image/upload/v1663760408/${user.data.image}`
-                      : `https://ui-avatars.com/api/?name=${user.data.username}&background=random&size=44`
-                  }
-                  className="avatar rounded-circle "
-                  alt="avatar"
-                  style={{ width: "70px" }}
-                />
-                <div className="title-profile">
-                  <p className="profile-name">{user.data.username}</p>
-                  <p className="profile-job">{user.data.job}</p>
-                </div>
-              </div>
-              <div
-                className="list-group-item list-group-item-profile d-flex  "
-                // onClick={navigate("/profile")}
-              >
-                <i className="fa fa-user "></i>
-                <p>Profile</p>
-              </div>
-              <div
-                className="list-group-item list-group-item-profile d-flex  "
-                // onClick={navigate("/update-password")}
-              >
-                <i className="fa fa-user "></i>
-                <p>Update Password</p>
-              </div>
-              <div
-                // onClick={navigate("/my-booking")}
-                className="list-group-item list-group-item-profile d-flex"
-              >
-                <i className="fa fa-book"></i>
-                <p> My Booking</p>
-              </div>
-              <div
-                className="list-group-item list-group-item-profile d-flex"
-                // onClick={navigate("/wishlist")}
-              >
-                <i className="fa fa-heart "></i>
-                <p>My Wishlist</p>
-              </div>
-
-              <div
-                className="list-group-item list-group-item-profile d-flex"
-                onClick={handleLogout}
-              >
-                <i className="fa fa-right-from-bracket"></i>
-                <p>Log Out</p>
-              </div>
-            </div>
+            <Sidebar />
           </div>
-          <div className="col-9 rounded">
+          <div className="col-9 bg-white">
             <div className="card-profile">
               <div className="row p-4">
                 <h4>
@@ -118,8 +99,8 @@ export default function Profile() {
                     <div className="edit name">
                       <input
                         type="text"
-                        // placeholder={user.data.username}
-                        value={form.username}
+                        placeholder={form.username}
+                        // value={form.username}
                         disabled
                       />
                     </div>
@@ -166,18 +147,20 @@ export default function Profile() {
                       <div className="1">
                         <input
                           type="radio"
-                          value={form.gender}
                           onChange={handleChangeForm}
                           name="gender"
+                          checked={form.gender == "male" ? true : false}
+                          value="male"
                         />
                         <label>Male</label>
                       </div>
                       <div className="2">
                         <input
                           type="radio"
-                          value={form.gender}
+                          checked={form.gender == "female" ? true : false}
                           onChange={handleChangeForm}
                           name="gender"
+                          value="female"
                         />
                         <label>Female</label>
                       </div>
@@ -205,9 +188,9 @@ export default function Profile() {
                       onChange={handleChangeForm}
                       name="nationality"
                     >
-                      <option>Entrepeneur</option>
-                      <option>Student</option>
-                      <option>Programmer</option>
+                      <option>Indonesia</option>
+                      <option>Japan</option>
+                      <option>United State</option>
                       <option>...</option>
                     </select>
                   </div>
@@ -228,20 +211,64 @@ export default function Profile() {
                     className="btn btn-save "
                     onClick={handleUpdateUser}
                   >
-                    save
+                    {loading ? (
+                      <div className="spinner-border text-white" role="status">
+                        <span className="sr-only"></span>
+                      </div>
+                    ) : (
+                      "Save"
+                    )}
                   </button>
                 </div>
-                <div className="col-4 bg-primary text-center pt-4">
-                  <img src={avatar} alt="" className="img-profile " />
-                  <input
-                    type="file"
-                    name="image"
-                    accept="image/png, image/jpeg, image/jpg"
-                    onChange={handleChangeFormImage}
-                  />
-                  <button type="button" onClick={handleUpdateImage}>
-                    save
-                  </button>
+                <div className="col-4  text-center align-item-center pt-4">
+                  <div className="align-item-center w-100">
+                    <img
+                      src={
+                        image
+                          ? image
+                          : user.data.image
+                          ? `https://res.cloudinary.com/dxbhfz3jn/image/upload/v1663760408/${user.data.image}`
+                          : `https://ui-avatars.com/api/?name=${user.data.username}&background=a0a0a0&size=44&color=ffffff`
+                      }
+                      alt="profile"
+                      className="img-profile rounded-circle mb-5"
+                      // style={{ borderRadius: "20px" }}
+                    />
+                  </div>
+                  {image ? (
+                    <button className="btn" onClick={handleUpdateImage}>
+                      {loading ? (
+                        <div
+                          className="spinner-border text-white"
+                          role="status"
+                        >
+                          <span className="sr-only"></span>
+                        </div>
+                      ) : (
+                        "Save"
+                      )}
+                    </button>
+                  ) : (
+                    <>
+                      <input
+                        className="input-img-profile bg-primary"
+                        name="image"
+                        onChange={handleChangeImage}
+                        id="files"
+                        style={{ visibility: "hidden" }}
+                        type="file"
+                      />
+                      <div style={{ marginTop: "-70px" }}>
+                        <label
+                          htmlFor="files"
+                          className="btn"
+                          // style={{ marginRight: "100px" }}
+                        >
+                          Update Image
+                        </label>
+                      </div>
+                    </>
+                  )}
                 </div>
               </div>
             </div>

@@ -14,6 +14,7 @@ export default function Signin() {
   const navigate = useNavigate();
   const MySwal = withReactContent(Swal);
   const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false);
   const [form, setForm] = useState({
     email: "",
     password: "",
@@ -24,11 +25,14 @@ export default function Signin() {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
   const handleLogin = async () => {
+    setLoading(true);
     try {
       const result = await axios.post("auth/login", form);
       localStorage.setItem("token", result.data.data.token);
       localStorage.setItem("refreshToken", result.data.data.refreshToken);
+
       await dispatch(getDataUser(result.data.data.userId));
+      setLoading(false);
       MySwal.fire({
         position: "top-end",
         icon: "success",
@@ -39,8 +43,15 @@ export default function Signin() {
 
       navigate("/");
     } catch (error) {
+      setLoading(false);
       // alert(result.data.msg);
-      // console.error(error);
+      MySwal.fire({
+        position: "top-end",
+        icon: "error",
+        title: error.response.data.msg,
+        showConfirmButton: false,
+        timer: 1500,
+      });
     }
   };
   const handleShowPassword = () => {
@@ -50,11 +61,11 @@ export default function Signin() {
   return (
     <>
       {/* Hello world */}
-      <div className="container-fluid w-100 h-100">
+      <div className="container-fluid body-auth">
         <div className="row">
           {/* banner */}
-          <div className="col-9 bg-primary content__img">
-            <img src={doll} alt="" className="character__img--auth  " />
+          <div className="col-9 bg-primary content__img ">
+            <img src={doll} alt="" className="character__img--auth" />
           </div>
           {/* form */}
           <div className="col-3 d-flex align-items-center justify-content-center contents ">
@@ -107,8 +118,15 @@ export default function Signin() {
                     type="button"
                     className="btn w-100 rounded-4 my-4 mb-2"
                     onClick={handleLogin}
+                    disabled={!form.email || !form.password ? true : false}
                   >
-                    Signin
+                    {loading ? (
+                      <div className="spinner-border text-white" role="status">
+                        <span className="sr-only"></span>
+                      </div>
+                    ) : (
+                      "Sign In"
+                    )}
                   </button>
                   <span className="d-block text-center my-4 text-muted desc-caption">
                     or Sign In with

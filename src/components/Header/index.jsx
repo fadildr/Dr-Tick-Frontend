@@ -4,17 +4,11 @@ import logo from "../../assets/img/icon.png";
 // import avatar from "../../assets/img/google.svg";
 
 import { Link, useNavigate } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import Swal from "sweetalert2";
-import withReactContent from "sweetalert2-react-content";
-import { logout } from "../../stores/actions/auth";
-// import {getDataUser} from "../../stores/actions/user"
-// import { useEffect } from "react";
+import { useSelector } from "react-redux";
+
 export default function Header() {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   const isLogin = localStorage.getItem("token");
-  const MySwal = withReactContent(Swal);
 
   // const isLogin = false;
   const user = useSelector((state) => state.user);
@@ -25,31 +19,7 @@ export default function Header() {
   const handleUser = async () => {
     navigate("/profile");
   };
-  const dataLogout = {
-    email: user.data.email,
-    password: user.data.password,
-  };
-  const handleLogout = () => {
-    MySwal.fire({
-      title: "Are you sure want to logout?",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Logout",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        dispatch(logout(dataLogout));
-        localStorage.clear();
-        navigate("/");
-        MySwal.fire({ title: "Succes Logout!", icon: "success" });
-      }
-    });
-    // dispatch(logout(dataLogout));
-  };
-  // const handleCreateEvent = () => {
-  //   navigate("/CreateEvent");
-  // };
+
   return (
     <nav className="navbar navbar-expand-lg fixed-top ">
       <div className="container-fluid  ">
@@ -79,15 +49,12 @@ export default function Header() {
             </li>
             <li className="nav-item">
               <Link
-                to="/detail"
+                to="/createevent"
                 className="nav-link"
                 // onClick={navigate("/createevent")}
               >
-                Create Event
+                {user.data.role == "Admin" && "Create Event"}
               </Link>
-              {/* <a className="nav-link" href="/detail">
-                  Create Event
-                </a> */}
             </li>
             <li className="nav-item">
               <Link to="/" className="nav-link">
@@ -107,19 +74,21 @@ export default function Header() {
                     src={
                       user.data.image
                         ? `https://res.cloudinary.com/dxbhfz3jn/image/upload/v1663760408/${user.data.image}`
-                        : `https://ui-avatars.com/api/?name=${user.data.username}&background=random&size=44`
+                        : `https://ui-avatars.com/api/?name=${user.data.username}&background=a0a0a0&size=44&color=ffffff`
                     }
-                    className="avatar rounded-circle"
+                    className="avatar rounded-circle "
                     alt="avatar"
                     // style={{ width: "5%" }}
                   />
                 </div>
-                <p className="my-auto">
+                <p
+                  className="my-auto"
+                  style={{ cursor: "pointer" }}
+                  onClick={handleUser}
+                >
                   {user.data.username ? user.data.username : "Anonymous"}
                 </p>
-                <button className="btn" onClick={handleLogout}>
-                  logout
-                </button>
+
                 {/* <p className="my-auto">{name || "Anonymous"}</p> */}
               </>
             ) : (

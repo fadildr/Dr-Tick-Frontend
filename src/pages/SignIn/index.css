@@ -6,17 +6,17 @@
   font-family: poppins;
 }
 
-.container-fluid {
-  width: 100%;
-  height: 100%;
-}
-
 .section-left {
   padding: 20px;
 }
+.content__img {
+  min-height: 100vh;
+  /* padding-top: 200px; */
+}
 .character__img--auth {
-  width: 500px;
-  margin: 106px auto;
+  width: 800px !important;
+  height: auto;
+  margin: 100px auto;
   display: block;
 }
 
@@ -95,6 +95,6 @@
   }
   .contents {
     width: 100%;
-    height: 50%;
+    height: 100vh;
   }
 }

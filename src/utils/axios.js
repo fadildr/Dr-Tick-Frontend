@@ -1,9 +1,8 @@
 import axios from "axios";
 
 const axiosApiIntances = axios.create({
-  // baseURL: "https://fazzpay-d3aubygex-bagusth15.vercel.app/",
-  baseURL: "http://localhost:3001/api/",
-  // baseURL: "https://event-organizing-backend.vercel.app/api/",
+  // baseURL: "http://localhost:3001/api/",
+  baseURL: "https://dr-tick-backend.vercel.app/api/",
 });
 // Add a request interceptor
 // Add a request interceptor

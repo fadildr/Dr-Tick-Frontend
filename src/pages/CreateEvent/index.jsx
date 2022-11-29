@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
-import avatar from "../../assets/img/john.svg";
+import Sidebar from "../../components/Sidebar/index";
+// import avatar from "../../assets/img/john.svg";
 import moment from "moment";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
@@ -15,11 +16,12 @@ import {
 } from "../../stores/actions/event";
 
 import "./index.css";
+
 export default function createEvent() {
   // moment().format("YYYY-MM-DD");
   const dispatch = useDispatch();
   const MySwal = withReactContent(Swal);
-  const user = useSelector((state) => state.user);
+  // const user = useSelector((state) => state.user);
   const event = useSelector((state) => state.event);
 
   const [form, setForm] = useState({}); //(moment().format("yyyy-MM-dd"));
@@ -121,60 +123,11 @@ export default function createEvent() {
   return (
     <>
       <Header />
+
       <div className="container-fluid container-profile">
         <div className="row">
           <div className="col-3  ">
-            <div className="list-group ">
-              <div className="profile-img d-flex mb-4">
-                <img src={avatar} alt="" />
-                <div className="title-profile">
-                  <p className="profile-name">{user.data.username}</p>
-                  <p className="profile-job">Entrepener</p>
-                </div>
-              </div>
-              <a
-                className="list-group-item list-group-item-profile d-flex  "
-                href="#!"
-              >
-                <i className="fa fa-user "></i>
-                <p>Profile</p>
-              </a>
-              <a
-                className="list-group-item list-group-item-profile d-flex"
-                href="#!"
-              >
-                <i className="fa fa-book"></i>
-                <p>Create Event</p>
-              </a>
-              <a
-                className="list-group-item list-group-item-profile d-flex"
-                href="#!"
-              >
-                <i className="fa fa-book"></i>
-                <p> My Booking</p>
-              </a>
-              <a
-                className="list-group-item list-group-item-profile d-flex"
-                href="#!"
-              >
-                <i className="fa fa-heart "></i>
-                <p>My Wishlist</p>
-              </a>
-              <a
-                className="list-group-item list-group-item-profile d-flex"
-                href="#!"
-              >
-                <i className="fa fa-gear "></i>
-                <p>Settings</p>
-              </a>
-              <a
-                className="list-group-item list-group-item-profile d-flex"
-                href="#!"
-              >
-                <i className="fa fa-right-from-bracket"></i>
-                <p>Log Out</p>
-              </a>
-            </div>
+            <Sidebar />
           </div>
           <div className="col-9 rounded">
             <div className="card-profile">
@@ -255,7 +208,16 @@ export default function createEvent() {
                         />
                       </div>
                       <div className="modal-footer">
-                        {image && <img src={image} alt="view image" />}
+                        {image && (
+                          <img
+                            src={image}
+                            alt="view image"
+                            style={{
+                              width: "300px",
+                              margin: "auto",
+                            }}
+                          />
+                        )}
                         <button
                           type="button"
                           className="w-100 my-5 btn btn-primary"

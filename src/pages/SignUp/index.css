@@ -21,7 +21,7 @@
 }
 
 .form {
-  margin: 20px 15px;
+  /* margin: 20px 15px; */
   width: 250px;
 }
 
@@ -38,7 +38,8 @@
 }
 
 .caption {
-  font-size: 10px;
+  /* font-size: 10px; */
+  width: 100%;
 }
 
 .text {
