@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "../../utils/axios";
+import moment from "moment";
 import mapimg from "../../assets/img/map.png";
 import attendees from "../../assets/img/charevent.svg";
 import { addWishlist } from "../../stores/actions/wishlist";
@@ -85,24 +86,30 @@ function Detail() {
                 />
                 <br />
                 {wishlist ? (
-                  <button className="btn" onClick={handleAddWishlist}>
-                    hapus wishlist
-                  </button>
+                  <i
+                    className="bi bi-heart-fill text-danger"
+                    onClick={handleAddWishlist}
+                  ></i>
                 ) : (
-                  <button className="btn" onClick={handleAddWishlist}>
-                    <span
-                      className="lnr lnr-cart "
-                      style={{ fontSize: 15 }}
-                    ></span>
-                  </button>
+                  <i className="bi bi-heart" onClick={handleAddWishlist}></i>
                 )}
               </div>
               <div className="row">
                 <div className="col content-text w-100 position-relative">
                   <p className="title-detail">{item.name}</p>
                   <div className="date-location d-flex">
-                    <p>{item.location}</p>
-                    <p>{item.dateTimeShow.split("T")[0]}</p>
+                    <div className="d-flex">
+                      <i className="bi bi-geo-alt text-danger"></i>
+                      <p>{item.location}</p>
+                    </div>
+                    <div className="d-flex">
+                      <i className="bi bi-clock text-danger"></i>
+                      <p>
+                        {moment(item.dateTimeShow).format(
+                          "MMMM Do YYYY, h:mm:ss a"
+                        )}
+                      </p>
+                    </div>
                   </div>
                   <div className="attendees border-bottom pb-4">
                     <p style={{ fontSize: 12, fontWeight: "bold" }}>

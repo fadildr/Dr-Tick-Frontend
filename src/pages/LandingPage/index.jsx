@@ -37,6 +37,7 @@ function LandingPage() {
         `event?page=${page}&limit=4 &name=${searchName}&dateTimeShow=${dateShow}`
       );
       // console.log(result);
+      // ${dateShow}
       setData(result.data.data);
       setPagination(result.data.pagination);
     } catch (error) {

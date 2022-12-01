@@ -1,7 +1,7 @@
 import "./styles.css";
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-// import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import axios from "../../utils/axios";
 import SeatPosition from "../../components/SeatPosition";
 import Header from "../../components/Header";
@@ -9,39 +9,32 @@ import Footer from "../../components/Footer";
 import ticketREG from "../../assets/img/reg.png";
 import ticketVIP from "../../assets/img/vip.png";
 import ticketVVIP from "../../assets/img/vvip.png";
-// import { getBookingByUserId } from "../../stores/actions/booking";
-
-// import character__img from "../../assets/img/grup-ticket.png";
-// LIST SECTION
-// VVIP = VVIP(1...4)-1
-// VIP = VIP(1...4)-(1...7)
-// REG = REG(1...4)-(1...9)
-
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 export default function Order() {
   const navigate = useNavigate();
+  const MySwal = withReactContent(Swal);
+  const user = useSelector((state) => state.user);
   // const dispatch = useDispatch();
   const [fullSeat, setFullSeat] = useState([]); // DI GUNAKAN UNTUK MENAMPUNG SEAT YANG FULL
   const [activeSeat, setActiveSeat] = useState([]); // DIGUNAKAN UNTUK MENAMPUNG SEAT YANG SEDANG DIPILIH
   const [dataOrder, setDataOrder] = useState([]); // DIGUNAKAN UNTUK MENAMPUNG SEAT YANG SUDAH TERPILIH
   const [listBooking, setListBooking] = useState([]); // DIGUNAKAN UNTUK MENAMPUNG LIST DATA SEAT YANG SUDAH DI BOOKING
   const [dataEvent, setDataEvent] = useState([]); // DIGUNAKAN UNTUK MENAMPUNG DATA EVENT
+  const [loading, setLoading] = useState(false);
   const { id } = useParams();
-  // const data = { ...dataOrder };
-  // console.log(...dataOrder);
-  console.log(id);
-  console.log(setFullSeat, setListBooking);
-  // console.log(listBooking);
+  const userId = user.data.userId;
+
   useEffect(() => {
     getDataBooking();
     getDataEvent();
   }, []);
-
+  console.log(setListBooking);
   const getDataBooking = async () => {
     try {
       const result = await axios.get(`booking/event/${id}`);
-      console.log(result);
+
       setFullSeat(result.data.data);
-      console.log(result.data.data);
     } catch (error) {
       console.error(error);
     }
@@ -51,7 +44,6 @@ export default function Order() {
     // https://www.notion.so/Modul-Event-413ecaad2dd04d4eb0c6c2afc4f50888
     try {
       const result = await axios.get(`event/${id}`);
-      console.log(result);
 
       setDataEvent(result.data.data);
     } catch (error) {
@@ -85,14 +77,64 @@ export default function Order() {
       }
     }
   };
-  const handleOrderSeat = () => {
-    navigate("/payment", {
-      state: {
-        dataOrder,
-        eventId: id,
-      },
-    });
+
+  const dataSection = dataOrder?.map((x) => {
+    //mengambil data section pada ticket yang di click
+    return `${x.seat}`;
+  });
+  const dataQty = dataOrder?.map((x) => {
+    //mengambil data quantity pada ticket yang di click
+    return `${x.qty}`;
+  });
+  const quantity = dataQty?.map((str) => {
+    //menjumlahkan total ticket pada ticket yang di click
+    return Number(str);
+  });
+  const dataPrice = dataOrder?.map((x) => {
+    //mengambil data quantity pada ticket yang di click
+    return `${x.price}`;
+  });
+  const totalPrice = dataPrice?.map((str) => {
+    //menjumlahkan total ticket pada ticket yang di click
+    return Number(str);
+  });
+
+  const handleOrderSeat = async () => {
+    setLoading(true);
+    const dataBooking = {
+      eventId: id,
+      section: dataSection,
+      totalTicket: quantity.reduce((a, b) => a + b),
+      totalPayment: totalPrice.reduce((a, b) => a + b),
+      statusPayment: "true",
+    };
+
+    try {
+      const result = await axios.post(`booking/${userId}`, dataBooking);
+      setLoading(false);
+      const resultBooking = result.data.data;
+      MySwal.fire({
+        position: "top-end",
+        icon: "success",
+        title: result.data.msg,
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      navigate("/payment", {
+        state: resultBooking,
+      });
+    } catch (error) {
+      setLoading(false);
+      MySwal.fire({
+        position: "top-end",
+        icon: "error",
+        title: "Failed Order Event",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    }
   };
+
   // console.log(dataOrder);
   const clearOrderSeat = () => {
     setActiveSeat([]);
@@ -218,8 +260,15 @@ export default function Order() {
             <button
               className="btn-order btn btn-primary"
               onClick={handleOrderSeat}
+              disabled={dataOrder.length < 1 || loading ? true : false}
             >
-              Checkout
+              {loading ? (
+                <div className="spinner-border text-white" role="status">
+                  <span className="sr-only"></span>
+                </div>
+              ) : (
+                "Check Out"
+              )}
             </button>
             <button
               className="btn-clear btn btn-danger"

@@ -44,6 +44,7 @@ export default function Signin() {
       navigate("/");
     } catch (error) {
       setLoading(false);
+      console.log(error);
       // alert(result.data.msg);
       MySwal.fire({
         position: "top-end",
@@ -118,7 +119,9 @@ export default function Signin() {
                     type="button"
                     className="btn w-100 rounded-4 my-4 mb-2"
                     onClick={handleLogin}
-                    disabled={!form.email || !form.password ? true : false}
+                    disabled={
+                      !form.email || !form.password || loading ? true : false
+                    }
                   >
                     {loading ? (
                       <div className="spinner-border text-white" role="status">
