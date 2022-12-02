@@ -85,7 +85,9 @@ function Detail() {
                   style={{ height: 400 }}
                 />
                 <br />
-                {wishlist ? (
+                {user.data.role === "Admin" ? (
+                  ""
+                ) : wishlist ? (
                   <i
                     className="bi bi-heart-fill text-danger"
                     onClick={handleAddWishlist}
@@ -126,12 +128,23 @@ function Detail() {
                   </div>
                   <div className="map ">
                     <img src={mapimg} alt="" />
-                    <button
-                      className="btn  btn-buy rounded-4 my-4 mb-2"
-                      onClick={handleOrder}
-                    >
-                      check out
-                    </button>
+                    {user.data.role === "Admin" ? (
+                      <button
+                        className="btn  btn-buy rounded-4 my-4 mb-2"
+                        onClick={() => {
+                          navigate("/createevent");
+                        }}
+                      >
+                        Update
+                      </button>
+                    ) : (
+                      <button
+                        className="btn  btn-buy rounded-4 my-4 mb-2"
+                        onClick={handleOrder}
+                      >
+                        check out
+                      </button>
+                    )}
                   </div>
                 </div>
               </div>

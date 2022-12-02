@@ -257,6 +257,7 @@ export default function Profile() {
                         id="files"
                         style={{ visibility: "hidden" }}
                         type="file"
+                        accept="image/*"
                       />
                       <div style={{ marginTop: "-70px" }}>
                         <label

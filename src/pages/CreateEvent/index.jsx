@@ -205,6 +205,7 @@ export default function createEvent() {
                           name="image"
                           // value={form.image}
                           onChange={handleChangeForm}
+                          accept="image/*"
                         />
                       </div>
                       <div className="modal-footer">

@@ -120,7 +120,12 @@ export default function Signin() {
                     className="btn w-100 rounded-4 my-4 mb-2"
                     onClick={handleLogin}
                     disabled={
-                      !form.email || !form.password || loading ? true : false
+                      !form.email ||
+                      !form.password ||
+                      loading ||
+                      form.password.length < 8
+                        ? true
+                        : false
                     }
                   >
                     {loading ? (

@@ -53,7 +53,7 @@ export default function Header() {
                 className="nav-link"
                 // onClick={navigate("/createevent")}
               >
-                {user.data.role == "Admin" && "Create Event"}
+                {user.data.role == "Admin" || isLogin ? "Create Event" : ""}
               </Link>
             </li>
             <li className="nav-item">
